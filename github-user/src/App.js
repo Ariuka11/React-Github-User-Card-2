@@ -8,10 +8,21 @@ class App extends React.Component{
   state = {
     input: '',
     profile: {},
-    username: 'ariuka11'
+    username: 'ariuka11',
+    followers: []
   }
 
   componentDidMount(){
+    this.axiosApiCall();
+  }
+
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.username !== this.state.username){
+      this.axiosApiCall();
+    }
+  }
+
+  axiosApiCall(){
     axios.get(`https://api.github.com/users/${this.state.username}`)
       .then(res => {
         console.log("Getting User info:", res)
@@ -23,22 +34,18 @@ class App extends React.Component{
       .catch(err => {
         console.log('Not successful:', err)
       })
-  }
-
-  componentDidUpdate(prevProps, prevState){
-    if(prevState.username !== this.state.username){
-      axios.get(`https://api.github.com/users/${this.state.username}`)
-      .then(res => {
-        console.log("Getting User info:", res)
-        this.setState({
-          ...this.state, 
-          profile: res.data
+      //Followers API call
+    axios.get(`https://api.github.com/users/${this.state.username}/followers`)
+        .then(res => {
+          console.log("Getting Followers info:", res)
+          this.setState({
+            ...this.state, 
+            followers: res.data
+          })
         })
-      })
-      .catch(err => {
-        console.log('Not successful:', err)
-      })
-    }
+        .catch(err => {
+          console.log('Followers Not successful:', err)
+        })
   }
 
   handleChange = e => {
@@ -68,7 +75,7 @@ class App extends React.Component{
           />
           <button>Search User</button>
         </form>
-        <UserCard profile = {this.state.profile} />
+        <UserCard profile = {this.state.profile} followers = {this.state.followers} />
       </div>
     )
   }

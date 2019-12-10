@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Icon, Image } from 'semantic-ui-react'
+import FollowersCard from './FollowersCard'
 
 function UserCard (props) {
     return(
@@ -16,10 +17,14 @@ function UserCard (props) {
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
-                    <a>
+                    <a href = 'a'>
                         <Icon name='user' />
                         Followers : {props.profile.followers}
                     </a>
+                    {props.followers.map(follower => {
+                        return  <FollowersCard follower = {follower} key = {follower}/>
+                    })}
+                   
                 </Card.Content>
             </Card>
         </div>
