@@ -1,6 +1,7 @@
 
 import React from 'react';
 import axios from 'axios'
+import UserCard from './UserCard';
 
 class App extends React.Component{
 
@@ -57,7 +58,6 @@ class App extends React.Component{
   render(){
     return (
       <div>
-        {this.state.profile.login}
         <form onSubmit = {e => this.handleSubmit(e)}>
           <input 
             type = 'text'
@@ -68,6 +68,7 @@ class App extends React.Component{
           />
           <button>Search User</button>
         </form>
+        <UserCard profile = {this.state.profile} />
       </div>
     )
   }
